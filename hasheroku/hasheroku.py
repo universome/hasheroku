@@ -58,11 +58,12 @@ def hasheroku(text:str, separator:str='-', digits_suffix_len:int=0):
     assert 0 <= digits_suffix_len <= 36
 
     hash = sha256(text.encode('utf-8')).hexdigest()
-    random_vars = [int(s, 16) for s in hash[:4]]
+    source_vars = [int(s, 16) for s in hash[:4]]
 
-    # We use first two symbols of the hash to generate the first
-    adj_index = (random_vars[0] * random_vars[1]) % 64
-    noun_index = (random_vars[2] * random_vars[3]) % 64
+    # We use first two symbols of the hash to generate the adjective
+    # and second two symbols two generate the noun
+    adj_index = (source_vars[0] * 16 + source_vars[1]) % 64
+    noun_index = (source_vars[2] * 16 + source_vars[3]) % 64
 
     adj = ADJECTIVES[adj_index]
     noun = NOUNS[noun_index]
