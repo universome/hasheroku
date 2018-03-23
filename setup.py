@@ -11,6 +11,7 @@ setup(
     description='Generates nice heroku-ish hash from the string',
     packages=find_packages(exclude=('test',)),
     license='BSD',
+    python_requires='>=3',
     long_description=open('README.rst').read(),
     zip_safe=True
 )
