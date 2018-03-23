@@ -34,7 +34,7 @@ assert len(ADJECTIVES) == 64
 assert len(NOUNS) == 64
 
 
-def hasheroku(text:str, separator:str='-', digits_suffix_len:int=0):
+def hasheroku(text:str, suffix_len:int=0, separator:str='-'):
     """
     Generates heroku hash from the given string.
 
@@ -42,20 +42,21 @@ def hasheroku(text:str, separator:str='-', digits_suffix_len:int=0):
         text (str):
             String to hash.
 
+        suffix_len (int, optional):
+            Number of symbols to take from the real hash and append to heroku hash.
+            Symbols are taken from the end. Can't be larger than 36,
+            because there is not enough symbols in the sha256 hex,
+            which is used under the hood. We also reverse the suffix,
+            so it's easier to read heroku hashes from the identical strings, but
+            with different suffix lengths. Default: 0.
+
         separator (str, optional):
             String to separate heroku adjective, noun and digits suffix.
             Default: '-'
-
-        digits_suffix_len (int, optional):
-            Number of digits to append to the end of the hash.
-            Cant be larger than 36, because there is not enough symbols
-            in the sha256 hex, which is used under the hood.
-
-            Default: 0.
     """
 
     assert len(text) > 0
-    assert 0 <= digits_suffix_len <= 36
+    assert 0 <= suffix_len <= 36
 
     hash = sha256(text.encode('utf-8')).hexdigest()
     source_vars = [int(s, 16) for s in hash[:4]]
@@ -68,15 +69,15 @@ def hasheroku(text:str, separator:str='-', digits_suffix_len:int=0):
     adj = ADJECTIVES[adj_index]
     noun = NOUNS[noun_index]
 
-    if digits_suffix_len == 0:
+    if suffix_len == 0:
         heroku_hash = adj + separator + noun
     else:
-        digits = str(int(hash, 16))[-digits_suffix_len:]
+        suffix = hash[-suffix_len:]
 
-        # Let's reverse our digits so prefixes are the same
+        # Let's reverse our suffix so prefixes are the same
         # for identical strings with different suffix lengths
-        digits = digits[::-1]
+        suffix = suffix[::-1]
 
-        heroku_hash = adj + separator + noun + separator + digits
+        heroku_hash = adj + separator + noun + separator + suffix
 
     return heroku_hash
