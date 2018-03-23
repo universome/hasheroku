@@ -57,7 +57,7 @@ In this case, of course, you lose all the awesomeness of human-readable hashes a
 
 Are all names equally likely to be generated?
 ============
-Yes. First, we get sha256 hash of the string, than we project its first 4 hexadecimal characters into heroku adjectives and names.
+Yes. First, we get sha256 hash of the string, than we project its first 4 hexadecimal characters into heroku adjectives and nouns.
 As long as these 4 characters are uniformly distributed (and they do) and we project them properly (and we do) — our hashes are uniformly distributed too.
 The problem, of course, is with the tiny amount of possible names, that's why we have a lot of collisions.
 
@@ -77,10 +77,10 @@ Contributing and TODOs
 
    </strike>
 
-If you feel like you have nothing else to do with your life, you can contribute to this project.
+If you feel like you have nothing else to do, you can contribute to this project.
 It will be cool to make the following things:
 
 * Write a proper test for uniformity. There is a Kolmogorov-Smirnov test to check if a random variable is uniform, but it works only with continuous variables. And I do not know how to check the same thing for discrete ones (friendly, I didn't google this much, because I was a little bit |ss| lazy |se| busy).
-* Add more names and adjectives. This will allow us to reduce amount of collisions. Currently, I've hardcoded usage of only 64 adjectives/names. To sample properly I suppose we should take binary digest of the sha256 and use `this`_.
+* Add more nouns and adjectives. This will allow us to reduce amount of collisions. Currently, I've hardcoded usage of only 64 adjectives/nouns. To sample properly from a variable amounts of names/adjectives I suppose we should do something like this: take binary digest of the sha256 and use `this`_.
 
 .. _this : https://stats.stackexchange.com/questions/70073/generating-discrete-uniform-from-coin-flips
